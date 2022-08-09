@@ -1,0 +1,64 @@
+<!-- Formulario para carga de usuario -->
+<div class="d-flex bg-secondary">
+  <div class="m-4 flex-fill bg-light">
+    <form [formGroup]="form" novalidate (ngSubmit)="create($event); form.reset();">
+      <div class="form-group row m-2">
+        <div class="col">
+          <input class="form-control" type="text" placeholder="Nombre" formControlName="firstName"/>
+        </div>
+      </div>
+
+      <div class="form-group row m-2">
+        <div class="col">
+          <input class="form-control" type="text" placeholder="Apellido" formControlName="lastName"/>
+        </div>
+      </div>
+
+      <div class="form-group row m-2">
+        <div class="col">
+          <input class="form-control" type="text" placeholder="Dirección" formControlName="address"/>
+        </div>
+      </div>
+
+      <div class="form-group row m-2">
+        <div class="col">
+          <input class="form-control" type="text" placeholder="SSN" formControlName="ssn"/>
+          <div class="alert alert-danger" *ngIf="ssnValidation?.errors &&  ssnValidation?.touched">
+            <div *ngIf="ssnValidation?.hasError('required')">
+              El ssn es un campo obligatorio
+            </div>
+            <div *ngIf="ssnValidation?.hasError('pattern')">
+              El formato no es correcto
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-row-reverse mx-4">
+        <button class="btn btn-success btn-block m-1 rounded-pill" role="button" type="submit" [disabled]="form.invalid">Guardar</button>
+        <button class="btn btn-secondary btn-block m-1 rounded-pill" role="button" (click)="form.reset()">Limpiar</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Tabla de usuarios -->
+  <div class="m-4 flex-fill bg-light">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Direccion</th>
+          <th>SSN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td>{{ usuario.firstName}}</td>
+          <td>{{ usuario.lastName }}</td>
+          <td>{{ usuario.address }}</td>
+          <td>{{ usuario.ssn }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

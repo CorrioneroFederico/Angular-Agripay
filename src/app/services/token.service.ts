@@ -12,7 +12,7 @@ export class TokenService {
 
   constructor(private http:HttpClient) { }
 
-  getToken():Observable<string>{
-    return this.http.get<string>(this.urlEndPoint);
+  getToken():Observable<any>{
+    return this.http.post(this.urlEndPoint, {'username':"sarah", 'password':"connor"}) as Observable<any>;
   }
 }

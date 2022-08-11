@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TokenService } from '../services/token.service';
 import { UsuarioService } from '../services/usuario.service';
@@ -12,8 +12,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
 
   public usuarios: any[];
   public form: FormGroup;
-  public interval:any;
   public tokenSuscribe: any;
+  public interval:any;
 
 
   constructor(
@@ -36,12 +36,12 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     this.timer();
   }
 
-  ngOnDestroy(){
-    clearInterval(this.interval);
+  ngOnDestroy(): void {
     this.tokenSuscribe.unsubscribe;
+    clearInterval(this.interval);
   }
 
-  getToken() {
+  getToken(): void {
     if(localStorage.getItem('token')){
       this.tokenSuscribe=this._tokenService.getToken().subscribe((res: any) => {
       localStorage.setItem('token', res.token);
@@ -49,7 +49,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     }
   }
 
-  getUsuarios(){
+  getUsuarios(): void {
     this._usuarioService.getUsuarios().subscribe((res:any[])=>{
       this.usuarios=[];
       res.forEach(u=>{
@@ -85,7 +85,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
     this.timer();
   }
 
-  public timer(){
+  public timer(): void {
     this.interval= setInterval(() =>{
       this.getUsuarios();
     }, 120*1000);

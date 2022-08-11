@@ -4,13 +4,8 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-inicio',
   templateUrl: './inicio.component.html'
 })
-export class InicioComponent implements OnInit {
-
-  title:string='Bienvenido';
+export class InicioComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

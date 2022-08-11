@@ -6,7 +6,7 @@
       >
         <div class="form-group row m-2">
           <div class="col">
-            <input class="form-control" type="text" placeholder="Nombre" formControlName="firstName"/>
+            <input class="form-control" type="text" placeholder="Nombre" formControlName="firstName" trim="blur"/>
             <span class="text-danger" *ngIf="this.form.get('firstName')?.touched && this.form.get('firstName')?.errors">
               El nombre es obligatorio
             </span>
@@ -15,7 +15,7 @@
 
         <div class="form-group row m-2">
           <div class="col">
-            <input class="form-control" type="text" placeholder="Apellido" formControlName="lastName"/>
+            <input class="form-control" type="text" placeholder="Apellido" formControlName="lastName" trim="blur"/>
             <span class="text-danger" *ngIf="this.form.get('lastName')?.touched && this.form.get('lastName')?.errors">
               El apellido es obligatorio
             </span>
@@ -24,7 +24,7 @@
 
         <div class="form-group row m-2">
           <div class="col">
-            <input class="form-control" type="text" placeholder="Dirección" formControlName="address"/>
+            <input class="form-control" type="text" placeholder="Dirección" formControlName="address" trim="blur"/>
             <span class="text-danger" *ngIf="this.form.get('address')?.touched && this.form.get('address')?.errors">
               La dirección es obligatoria
             </span>

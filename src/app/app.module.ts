@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { UsuarioService } from './services/usuario.service';
 import { InicioComponent } from './inicio/inicio.component';
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { InicioComponent } from './inicio/inicio.component';
     ReactiveFormsModule,
     HttpClientModule,
     routing,
+    NgxTrimDirectiveModule
   ],
   providers: [
     RoutingProviders,

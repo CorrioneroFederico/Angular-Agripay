@@ -8,10 +8,11 @@ import swal from 'sweetalert2';
   selector: 'app-usuario',
   templateUrl: './usuario.component.html',
 })
-export class UsuarioComponent implements OnInit {
+export class UsuarioComponent implements OnInit, OnDestroy {
 
   public usuarios: any[];
   public form: FormGroup;
+  public interval:any;
 
 
   constructor(
@@ -21,18 +22,22 @@ export class UsuarioComponent implements OnInit {
   ) {
     this.usuarios = [];
     this.form = this.fb.group({
-      firstName: ['',Validators.required],
-      lastName: ['',Validators.required],
-      address: ['',Validators.required],
+      firstName: ['',[Validators.required,Validators.min(1)]],
+      lastName: ['',[Validators.required,Validators.min(1)]],
+      address: ['',[Validators.required,Validators.min(1)]],
       ssn: ['',[Validators.required, Validators.pattern('^[0-9]{3}[-][0-9]{2}[-][0-9]{4}')]],
     });
   }
 
-
-
   ngOnInit(): void {
     this.getToken();
     this.getUsuarios();
+    this.timer();
+  }
+
+  ngOnDestroy(){
+    //clearTimeout();
+    clearInterval(this.interval);
   }
 
   getToken() {
@@ -45,15 +50,18 @@ export class UsuarioComponent implements OnInit {
 
   getUsuarios(){
     this._usuarioService.getUsuarios().subscribe((res:any[])=>{
-      console.log(res);
+      this.usuarios=[];
       res.forEach(r=>{
         this.usuarios.push(r);
       });
-    });
+    });       //Agrego un "unsubscribe" al final?
   }
 
   public create(event: Event): void {
     event.defaultPrevented;
+    console.log("Nombre"+this.form.value.firstName)
+    console.log("Apellido"+this.form.value.lastName)
+    console.log("direccion"+this.form.value.address)
     let repetido=false;
     this.usuarios.forEach( p => p.ssn == this.form.value.ssn? repetido=true:false);
 
@@ -67,8 +75,7 @@ export class UsuarioComponent implements OnInit {
             'success'
           );
         }
-      );
-      this.form.reset();
+      );       //Agrego un "unsubscribe" al final?
     }else{
       swal.fire({
         icon: 'error',
@@ -76,5 +83,14 @@ export class UsuarioComponent implements OnInit {
         text: 'El SSN ingresado ya se encuentra registrado'
       })
     }
+    clearInterval(this.interval);
+    this.timer();
+  }
+
+  public timer(){
+    this.interval= setInterval(() =>{
+      this.getUsuarios();
+      console.log("Recargue!!!");
+    }, 120*1000);
   }
 }

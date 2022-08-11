@@ -13,6 +13,7 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   public usuarios: any[];
   public form: FormGroup;
   public interval:any;
+  public tokenSuscribe: any;
 
 
   constructor(
@@ -36,13 +37,13 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    //clearTimeout();
     clearInterval(this.interval);
+    this.tokenSuscribe.unsubscribe;
   }
 
   getToken() {
     if(localStorage.getItem('token')){
-      this._tokenService.getToken().subscribe((res: any) => {
+      this.tokenSuscribe=this._tokenService.getToken().subscribe((res: any) => {
       localStorage.setItem('token', res.token);
     });
     }
@@ -51,17 +52,14 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   getUsuarios(){
     this._usuarioService.getUsuarios().subscribe((res:any[])=>{
       this.usuarios=[];
-      res.forEach(r=>{
-        this.usuarios.push(r);
+      res.forEach(u=>{
+        this.usuarios.push(u);
       });
-    });       //Agrego un "unsubscribe" al final?
+    }).unsubscribe;
   }
 
   public create(event: Event): void {
     event.defaultPrevented;
-    console.log("Nombre"+this.form.value.firstName)
-    console.log("Apellido"+this.form.value.lastName)
-    console.log("direccion"+this.form.value.address)
     let repetido=false;
     this.usuarios.forEach( p => p.ssn == this.form.value.ssn? repetido=true:false);
 
@@ -90,7 +88,6 @@ export class UsuarioComponent implements OnInit, OnDestroy {
   public timer(){
     this.interval= setInterval(() =>{
       this.getUsuarios();
-      console.log("Recargue!!!");
     }, 120*1000);
   }
 }
